@@ -1,2 +1,16 @@
 index_version: 1
-apps: []
+apps:
+  - id: inhouse/requisicao-compras
+    name: Requisição de compras
+    summary: Pedidos de compra com aprovação, justificativa e acompanhamento de status.
+    categories:
+      - compras
+      - aprovacoes
+    repository: https://github.com/In-House-Technology/requisicao-compras.git
+    tag_prefix: v
+    license: MIT
+    versions:
+      - version: 1.0.0
+        commit: 88f88fa4e03649a99e4b7a1210c0a26938f0c2c8
+        approved_by: cava@estoca.com.br
+        approved_at: '2026-11-09'
