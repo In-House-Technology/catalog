@@ -1,0 +1,22 @@
+name: Validar catálogo
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar índice, tags, commits e origens
+        # mode=index executa validate-index com --fetch, conforme o contrato da action.
+        uses: Estoca/inhousecloud/.github/actions/ihapp-catalog-validate@77b5b92c4c000e75b86e9c088b93c8b87e55dc5d
+        with:
+          mode: index
+          path: catalog.yaml
+          org: In-House-Technology
