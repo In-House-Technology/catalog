@@ -10,6 +10,10 @@ apps:
     tag_prefix: v
     license: MIT
     versions:
+      - version: 1.0.1
+        commit: bb2f99101e2838f59cf5bcc837a48228237ca52c
+        approved_by: cava@estoca.com.br
+        approved_at: '2026-11-10'
       - version: 1.0.0
         commit: 88f88fa4e03649a99e4b7a1210c0a26938f0c2c8
         approved_by: cava@estoca.com.br
