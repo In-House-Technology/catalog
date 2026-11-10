@@ -19,3 +19,18 @@ Configure a proteção de `main` no GitHub para exigir a CI e revisão dos code 
 O índice começa com `inhouse/requisicao-compras` 1.0.0. O commit `0000000000000000000000000000000000000000` é um marcador temporário solicitado para o preparo local. Após publicar a origem e criar `v1.0.0`, substitua-o pelo commit real antes da aprovação e publicação do índice. A validação com busca remota deve falhar enquanto o marcador estiver presente ou a tag não existir. Os metadados iniciais de aprovação também devem corresponder à aprovação efetivamente registrada no PR.
 
 Licença [MIT](LICENSE), Copyright (c) 2026 Estoca.
+
+## Assinatura do índice
+
+Depois de cada merge na `main` que muda o `catalog.yaml`, o workflow **Assinar índice**
+(`.github/workflows/sign.yml`) assina os bytes exatos do arquivo com a chave ed25519 da
+InHouse e publica `catalog-<sha256>.sig` no release `signatures`. O job roda no ambiente
+`catalog-signing`, que exige a aprovação do dono: sem ela, nada é assinado.
+
+- O iht só passa adiante um índice assinado. Enquanto a versão nova não tem assinatura, as
+  empresas continuam vendo o último índice assinado.
+- O ihc confere a assinatura com as chaves públicas fixadas no próprio código antes de
+  confiar em qualquer versão.
+- Chave nova ou rotação: `node scripts/new-signing-key.mjs <key-id> [--backup <arquivo>]`
+  grava a chave privada direto no segredo do ambiente (sem mostrá-la) e imprime a chave
+  pública, que entra na lista do ihc e do iht antes de a antiga sair.
