@@ -18,3 +18,17 @@ apps:
         commit: 88f88fa4e03649a99e4b7a1210c0a26938f0c2c8
         approved_by: cava@estoca.com.br
         approved_at: '2026-11-09'
+  - id: cava-industries/reembolso-despesas
+    name: Reembolso de despesas
+    summary: Registro de despesas para reembolso com aprovação do gestor e acompanhamento do status.
+    license: MIT
+    categories:
+      - financeiro
+      - aprovacoes
+    repository: https://github.com/In-House-Technology/cava-industries-reembolso-despesas.git
+    tag_prefix: v
+    versions:
+      - version: 1.0.0
+        commit: 8311d35030453716c660dc1a656d9bc77c130af7
+        approved_by: cava@estoca.com.br
+        approved_at: '2026-11-10'
