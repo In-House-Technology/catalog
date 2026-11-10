@@ -1,0 +1,42 @@
+name: Assinar índice
+
+# Depois de um merge na main que muda o catalog.yaml, assina os bytes exatos do arquivo
+# com a chave ed25519 da InHouse e publica a assinatura como asset do release
+# "signatures" (catalog-<sha256>.sig). O ambiente catalog-signing exige a aprovação do
+# dono: sem ela, nada é assinado e as empresas continuam vendo o último índice assinado.
+on:
+  push:
+    branches: [main]
+    paths: [catalog.yaml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sign-catalog
+  cancel-in-progress: false
+
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+    environment: catalog-signing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assinar catalog.yaml
+        id: sign
+        env:
+          CATALOG_SIGNING_KEY: ${{ secrets.CATALOG_SIGNING_KEY }}
+          CATALOG_SIGNING_KEY_ID: ${{ vars.CATALOG_SIGNING_KEY_ID }}
+        run: echo "file=$(node scripts/sign.mjs)" >> "$GITHUB_OUTPUT"
+      - name: Publicar assinatura no release "signatures"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view signatures >/dev/null 2>&1 || \
+            gh release create signatures --title "Assinaturas do índice" \
+              --notes "Assinaturas ed25519 do catalog.yaml, uma por versão do arquivo (catalog-<sha256>.sig)."
+          gh release upload signatures "${{ steps.sign.outputs.file }}" --clobber
