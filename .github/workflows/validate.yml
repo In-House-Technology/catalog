@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validar índice, tags, commits e origens
         # mode=index executa validate-index com --fetch, conforme o contrato da action.
-        uses: Estoca/inhousecloud/.github/actions/ihapp-catalog-validate@77b5b92c4c000e75b86e9c088b93c8b87e55dc5d
+        uses: In-House-Technology/ihapp-tools@c2113f6a1f5cb33c40eba8213a1e272227452650
         with:
           mode: index
           path: catalog.yaml
